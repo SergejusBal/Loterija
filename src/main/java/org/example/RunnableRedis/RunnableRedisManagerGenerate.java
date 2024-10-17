@@ -1,4 +1,4 @@
-package org.example.Mannagers;
+package org.example.RunnableRedis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

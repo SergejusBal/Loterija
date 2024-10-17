@@ -4,8 +4,10 @@ import org.example.Mannagers.LotteryManager;
 import org.example.Mannagers.LotteryManagerHashMap;
 
 
-import org.example.Mannagers.RunnableRedisManagerCashOut;
-import org.example.Mannagers.RunnableRedisManagerGenerate;
+import org.example.RunnableMySQL.RunnableMySQLCashOut;
+import org.example.RunnableMySQL.RunnableMySQLGenerate;
+import org.example.RunnableRedis.RunnableRedisManagerCashOut;
+import org.example.RunnableRedis.RunnableRedisManagerGenerate;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,12 +29,17 @@ public class Main {
         boolean running = true;
         while(running) {
             System.out.println("Generate new Tickets (1)");
-            System.out.println("Cash out (2)");
-            System.out.println("Generate new Tickets HashMap (3)");
-            System.out.println("Cash out HashMap (4)");
-            System.out.println("Generate new Runnable (5)");
-            System.out.println("Cash out Runnable (6)");
+            System.out.println("Cash out, (2)");
+            System.out.println("Generate new Tickets, Tickets HashMap (3)");
+            System.out.println("Cash out, HashMap (4)");
+            System.out.println("Generate new Tickets, Runnable Redis (5)");
+            System.out.println("Cash out, Runnable Redis (6)");
+            System.out.println("Generate new Tickets, Runnable MySQL (7)");
+            System.out.println("Cash out, Runnable MySQL (8)");
+            System.out.println("Generate new Tickets, RabbitMQ (9)");
+            System.out.println("Cash out, RabbitMQ (10)");
             System.out.println("Quit: (0)");
+
             int amount;
             long militime;
             int operation = Custom.nuskaitytiIntVerteCon();
@@ -91,6 +98,37 @@ public class Main {
 
                     System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
                     break;
+                case 7:
+                    System.out.println("Select amount to generate");
+                    amount = Custom.nuskaitytiIntVerteCon();
+                    militime = System.currentTimeMillis();
+                    executor = Executors.newFixedThreadPool(5);
+                    for(int i = 0; i < amount; i++){
+                        executor.execute(new RunnableMySQLGenerate());
+                    }
+
+                    executor.shutdown();
+                    executor.awaitTermination(10, TimeUnit.SECONDS);
+
+                    System.out.println(amount + " tickets were generated");
+                    System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
+                    break;
+                case 8:
+                    militime = System.currentTimeMillis();
+
+                    RunnableMySQLCashOut runnableMySQLCashOut = new RunnableMySQLCashOut();
+                    amount = RunnableMySQLCashOut.getWorkLoadSize();
+
+                    executor = Executors.newFixedThreadPool(5);
+                    for(int i = 0; i < amount; i++){
+                        executor.execute(runnableMySQLCashOut);
+                    }
+                    executor.shutdown();
+                    executor.awaitTermination(10, TimeUnit.SECONDS);
+
+                    System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
+                    break;
+
                 case 0:
                     running = false;
                     System.out.println("Program is closing...");

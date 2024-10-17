@@ -1,4 +1,4 @@
-package org.example.Mannagers;
+package org.example.RunnableRedis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,6 +59,7 @@ public class RunnableRedisManagerCashOut implements Runnable{
 
             stringBuilder.append("Your ticket number is: ")
                             .append(ticketNumber)
+                            .append("\n")
                             .append(printLuckyNumbers(numbers))
                             .append("Lucky ")
                             .append("\n")
