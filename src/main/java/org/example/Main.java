@@ -4,6 +4,7 @@ import org.example.Mannagers.LotteryManager;
 import org.example.Mannagers.LotteryManagerHashMap;
 
 
+import org.example.RabbitMQ.RabbitMQService;
 import org.example.RunnableMySQL.RunnableMySQLCashOut;
 import org.example.RunnableMySQL.RunnableMySQLGenerate;
 import org.example.RunnableRedis.RunnableRedisManagerCashOut;
@@ -14,12 +15,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
 
         ExecutorService executor;
 
         RedisService redisService = new RedisService("localhost", 6379);
         LotteryManager lotteryManager = new LotteryManager(redisService);
+        RabbitMQService rabbitMQService = new RabbitMQService("LotteryTickets");
 
 
         System.out.println("*********************************************************");
@@ -117,7 +119,7 @@ public class Main {
                     militime = System.currentTimeMillis();
 
                     RunnableMySQLCashOut runnableMySQLCashOut = new RunnableMySQLCashOut();
-                    amount = RunnableMySQLCashOut.getWorkLoadSize();
+                    amount = runnableMySQLCashOut.getWorkLoadSize();
 
                     executor = Executors.newFixedThreadPool(5);
                     for(int i = 0; i < amount; i++){
@@ -125,6 +127,24 @@ public class Main {
                     }
                     executor.shutdown();
                     executor.awaitTermination(10, TimeUnit.SECONDS);
+
+                    System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
+                    break;
+                case 9:
+                    System.out.println("Select amount to generate");
+                    amount = Custom.nuskaitytiIntVerteCon();
+
+                    militime = System.currentTimeMillis();
+                    rabbitMQService.createAndSendTickets(amount);
+
+                    System.out.println(amount + " tickets were generated");
+                    System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
+                    break;
+                case 10:
+                    militime = System.currentTimeMillis();
+
+                    rabbitMQService.cashOutTickets();
+
 
                     System.out.println("Time in milis: " + (System.currentTimeMillis()  - militime));
                     break;

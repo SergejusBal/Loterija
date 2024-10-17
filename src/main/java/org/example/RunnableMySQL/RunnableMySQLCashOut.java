@@ -41,7 +41,6 @@ public class RunnableMySQLCashOut implements Runnable{
     public void run() {
         String ticketNumber = getTicketNumber();
 
-
         String json = getJsonTicketNumbers(ticketNumber);
 
         int[] numbers = generateObjectFromJSon(json, int[].class);
@@ -53,7 +52,6 @@ public class RunnableMySQLCashOut implements Runnable{
                 .append("\n")
                 .append(printLuckyNumbers(numbers))
                 .append("Lucky ")
-                .append("\n")
                 .append(printLuckyNumbers(luckyNumbers));
 
         int matches = calculateWinnings(luckyNumbers, numbers);
@@ -150,7 +148,7 @@ public class RunnableMySQLCashOut implements Runnable{
         }
     }
 
-    private static int[] generateLuckyNumbers(int size){
+    private int[] generateLuckyNumbers(int size){
         Random random = new Random();
         int [] luckyNumbers = new int[size];
         for(int i = 0; i < size; i++ ) luckyNumbers[i] = random.nextInt(1,36);
@@ -196,7 +194,7 @@ public class RunnableMySQLCashOut implements Runnable{
         }
     }
 
-    public static int getWorkLoadSize() {
+    public int getWorkLoadSize() {
         return workLoadSize;
     }
 }
