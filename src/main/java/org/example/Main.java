@@ -89,6 +89,7 @@ public class Main {
 
                     executor.shutdown();
                     executor.awaitTermination(100, TimeUnit.SECONDS);
+                    executor.shutdownNow();
 
                     System.out.println(amount + " tickets were generated");
                     time[4] = (System.currentTimeMillis()  - militime);
@@ -105,6 +106,7 @@ public class Main {
                     }
                     executor.shutdown();
                     executor.awaitTermination(100, TimeUnit.SECONDS);
+                    executor.shutdownNow();
 
                     time[5] = (System.currentTimeMillis()  - militime);
                     break;
@@ -119,6 +121,7 @@ public class Main {
 
                     executor.shutdown();
                     executor.awaitTermination(1000, TimeUnit.SECONDS);
+                    executor.shutdownNow();
 
                     System.out.println(amount + " tickets were generated");
                     time[6] = (System.currentTimeMillis()  - militime);
@@ -135,6 +138,7 @@ public class Main {
                     }
                     executor.shutdown();
                     executor.awaitTermination(1000, TimeUnit.SECONDS);
+                    executor.shutdownNow();
 
                     time[7] = (System.currentTimeMillis()  - militime);
                     break;
@@ -243,6 +247,7 @@ public class Main {
                 executor.shutdown();
                 try {
                     executor.awaitTermination(100, TimeUnit.SECONDS);
+                    executor.shutdownNow();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -296,6 +301,7 @@ public class Main {
                 executor.shutdown();
                 try {
                     executor.awaitTermination(100, TimeUnit.SECONDS);
+                    executor.shutdownNow();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
