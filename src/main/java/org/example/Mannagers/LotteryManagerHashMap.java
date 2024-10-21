@@ -63,7 +63,6 @@ public class LotteryManagerHashMap {
             printLuckyNumbers(statistics);
             System.out.println();
 
-
     }
 
 

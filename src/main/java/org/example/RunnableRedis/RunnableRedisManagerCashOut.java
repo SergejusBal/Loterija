@@ -24,10 +24,8 @@ public class RunnableRedisManagerCashOut implements Runnable{
             luckyNumbers = generateLuckyNumbers(5);
             concurrent = new CopyOnWriteArrayList<>();
 
-            RedisService redisStaticService = new RedisService("localhost", 6379);
-
             try {
-                Set<String> keys = redisStaticService.getKeys();
+                Set<String> keys = redisService.getKeys();
                 workLoadSize = keys.size();
                 concurrent.addAll(keys);
 
